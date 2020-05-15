@@ -29,7 +29,9 @@ class Loader
      */
     public static function autoload($class)
     {
-        require_once __DIR__ . DS . substr($class,6) . '.php';
+        $file = WYCTO_PATH . str_replace('wycto\\','',$class);
+        $file = $file . '.php';
+        require_once $file;
     }
 }
 

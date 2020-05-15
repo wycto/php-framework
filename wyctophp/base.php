@@ -18,4 +18,3 @@ require_once 'common.php';
 require_once 'Loader.php';
 // 注册自动加载
 \wycto\Loader::register();
-mydump(WYCTO_VERSION);

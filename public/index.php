@@ -10,3 +10,4 @@
  * */
 
 require_once __DIR__ . '/../wyctophp/start.php';
+mydump(WYCTO_VERSION);
