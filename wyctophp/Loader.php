@@ -31,7 +31,7 @@ class Loader
     {
         $file = WYCTO_PATH . str_replace('wycto\\','',$class);
         $file = $file . '.php';
-        require_once $file;
+        include $file;
     }
 }
 

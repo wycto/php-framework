@@ -3,7 +3,7 @@ namespace wycto;
 class App
 {
     static function run(){
-        echo "run";
+       $route = new  Route();
     }
 }
 
