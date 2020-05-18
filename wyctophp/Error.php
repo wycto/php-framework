@@ -21,5 +21,3 @@ class Error
         register_shutdown_function([__CLASS__, 'appShutdown']);*/
     }
 }
-
-?>
