@@ -14,8 +14,3 @@ require_once __DIR__ . '/../wyctophp/start.php';
 
 //启用框架
 \wycto\App::run();
-
-dump('WYCTO_PATH : ' . WYCTO_PATH);
-dump('APP_PATH: ' . APP_PATH);
-dump('ROOT_PATH: ' . ROOT_PATH);
-dump($_SERVER['SCRIPT_FILENAME']);

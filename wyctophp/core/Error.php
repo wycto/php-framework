@@ -19,5 +19,14 @@ class Error
         /*set_error_handler([__CLASS__, 'appError']);
         set_exception_handler([__CLASS__, 'appException']);
         register_shutdown_function([__CLASS__, 'appShutdown']);*/
+        register_shutdown_function([__CLASS__, 'appShutdown']);
+    }
+
+    static function appShutdown(){
+        $Error = error_get_last();
+        if(!is_null($Error)){
+            //$ErrorText = json_encode($Error);
+            dump($Error);
+        }
     }
 }
