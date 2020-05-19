@@ -1,9 +1,8 @@
 <?php 
-use wycto\Debug;
-if (!function_exists('dump')) {
-    function dump($var)
+if (!function_exists('view')) {
+    function view($template='')
     {
-        return Debug::dump($var);
+        return \wycto\View::run($template='');
     }
 }
 ?>

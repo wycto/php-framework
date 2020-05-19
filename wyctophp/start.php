@@ -16,6 +16,7 @@ defined('TEMP_PATH') or define('TEMP_PATH', RUNTIME_PATH . 'temp' . DS);
 
 require_once 'common.php';
 require_once 'core' . DS . 'Loader.php';
+require_once 'helper.php';
 
 // 注册自动加载
 \wycto\Loader::register();
