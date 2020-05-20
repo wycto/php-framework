@@ -26,5 +26,3 @@ class Cookie
         // TODO - Insert your code here
     }
 }
-
-?>

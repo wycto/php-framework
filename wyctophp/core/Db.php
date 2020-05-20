@@ -19,5 +19,3 @@ class Db
     function __destruct()
     {}
 }
-
-?>

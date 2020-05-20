@@ -16,6 +16,18 @@ class View
             include_once $file;
         }
     }
-}
 
-?>
+    public static function load($file=''){
+        if($file){
+            include_once $file;
+        }else{
+            $route = App::$route;
+            $file = APP_PATH;
+            if($route->module_name){
+                $file .= $route->module_name . DS;
+            }
+            $file .= 'view' . DS . $route->controller_name . DS . $route->action_name . '.html';
+            include_once $file;
+        }
+    }
+}

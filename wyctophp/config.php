@@ -24,6 +24,8 @@ return [
         'use_action_prefix'      => false,
         // 操作方法后缀
         'action_suffix'          => 'Action',
+        //过滤器
+        'default_filter' => ''
     ],
     'log'                    => [
         // 日志记录方式

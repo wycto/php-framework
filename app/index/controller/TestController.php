@@ -15,6 +15,6 @@ class TestController
     function  runAction(){
         $row = Test::read();
         dump($row);
-        return view();
+
     }
 }

@@ -7,5 +7,3 @@ class Session
     function __construct()
     {}
 }
-
-?>

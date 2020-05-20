@@ -4,5 +4,3 @@ namespace wycto;
 class Cache
 {
 }
-
-?>
