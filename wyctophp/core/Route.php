@@ -2,17 +2,17 @@
 namespace wycto;
 class Route
 {
-    public $module_name;
+    private static $module_name;
 
-    public $controller_name;
+    private static $controller_name;
 
-    public $action_name;
+    private static $action_name;
 
-    public $mca = array();
+    private static $mca = array();
 
-    public $multi_module;
+    private static $multi_module;
 
-    public $app_config;
+    private static $app_config;
 
     function __construct()
     {
@@ -73,32 +73,72 @@ class Route
         $this->mca['action_name'] = $this->action_name;
     }
 
-    function start(){
-        $controller_classname = $this->controller_name . $this->app_config['controller_suffix'];
-        if($this->multi_module){
-            if(!is_dir(ROOT_PATH . 'app' . DS . $this->module_name)){
-                halt('模块：【' . $this->module_name . '】不存在');
+    public static function  parse($request, $config){
+        $app_config = $config['app'];
+
+        self::$module_name = $app_config['default_module'];
+        self::$controller_name = $app_config['default_controller'];
+        self::$action_name = $app_config['default_action'];
+        self::$multi_module = $app_config['multi_module'];
+        self::$app_config = $app_config;
+
+        $uri = $_SERVER['REQUEST_URI'];
+        $uri_array = explode('/',trim($uri,'/'));
+        if(self::$multi_module){
+            //多应用
+            if($uri_array[0]){
+                self::$module_name = $uri_array[0];
             }
-            $controller_classname = DS . 'app' . DS . $this->module_name . DS . 'controller' . DS . ucfirst($controller_classname);
+            if(isset($uri_array[1])){
+                self::$controller_name = $uri_array[1];
+            }
+            if(isset($uri_array[2])){
+                self::$action_name = $uri_array[2];
+            }
+            //参数
+            if(count($uri_array)>3){
+                for ($i=3;$i<=count($uri_array);){
+                    if(isset($uri_array[$i])){
+                        $_GET[$uri_array[$i]] = isset($uri_array[$i+1])?$uri_array[$i+1]:null;
+                        $_REQUEST[$uri_array[$i]] = isset($uri_array[$i+1])?$uri_array[$i+1]:null;
+                    }
+                    $i += 2;
+                }
+            }
         }else{
-            $controller_classname = DS . 'app' . DS . 'controller' . DS . ucfirst($controller_classname);
+            //单应用
+            self::$module_name = '';
+
+            if($uri_array[0]){
+                self::$controller_name = $uri_array[0];
+            }
+            if(isset($uri_array[1])){
+                self::$action_name = $uri_array[1];
+            }
+            //参数
+            if(count($uri_array)>2){
+                for ($i=2;$i<=count($uri_array);){
+                    if(isset($uri_array[$i])){
+                        $_GET[$uri_array[$i]] = isset($uri_array[$i+1])?$uri_array[$i+1]:null;
+                        $_REQUEST[$uri_array[$i]] = isset($uri_array[$i+1])?$uri_array[$i+1]:null;
+                    }
+                    $i += 2;
+                }
+            }
         }
 
-        $controller_classname = str_replace('/','\\',$controller_classname);
+        self::$mca['module_name'] = self::$module_name;
+        self::$mca['controller_name'] = self::$controller_name;
+        self::$mca['action_name'] = self::$action_name;
 
-        $controller = new $controller_classname();
-
-        if($this->app_config['use_action_prefix']){
-            $action_name = 'action' . ucfirst($this->action_name);
-        }else{
-            $action_name = $this->action_name . $this->app_config['action_suffix'];
-        }
-
-        if(method_exists($controller,$action_name)){
-            $controller->$action_name();
-        }else{
-            halt('控制器方法：【' . $action_name . '】不存在');
-        }
+        return array(
+            "type" => "module",
+            "module" => array(
+                'module_name' => self::$module_name,
+                'controller_name' => self::$controller_name,
+                'action_name' => self::$action_name
+            )
+        );
     }
 }
 

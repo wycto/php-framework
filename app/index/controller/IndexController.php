@@ -7,6 +7,6 @@ namespace app\index\controller;
 class IndexController
 {
     function indexAction(){
-        dump("this IndexController indexAction");
+        return "this IndexController indexAction";
     }
 }
