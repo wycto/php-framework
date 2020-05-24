@@ -7,12 +7,12 @@ class View
         if($template){
             include_once $template;
         }else{
-            $route = App::$route;
+            $request = Request::instance();
             $file = APP_PATH;
-            if($route->module_name){
-                $file .= $route->module_name . DS;
+            if($request->module_name){
+                $file .= $request->module_name . DS;
             }
-            $file .= 'view' . DS . $route->controller_name . DS . $route->action_name . '.html';
+            $file .= 'view' . DS . $request->controller_name . DS . $request->action_name . '.html';
             include_once $file;
         }
     }
@@ -21,12 +21,12 @@ class View
         if($file){
             include_once $file;
         }else{
-            $route = App::$route;
+            $request = Request::instance();
             $file = APP_PATH;
-            if($route->module_name){
-                $file .= $route->module_name . DS;
+            if($request->module_name){
+                $file .= $request->module_name . DS;
             }
-            $file .= 'view' . DS . $route->controller_name . DS . $route->action_name . '.html';
+            $file .= 'view' . DS . $request->controller_name . DS . $request->action_name . '.html';
             include_once $file;
         }
     }

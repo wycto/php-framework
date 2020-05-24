@@ -82,20 +82,20 @@ class Route
         self::$multi_module = $app_config['multi_module'];
         self::$app_config = $app_config;
 
-        $uri = $_SERVER['REQUEST_URI'];
+        $uri = $request->request_url;
         $uri_array = explode('/',trim($uri,'/'));
         if(self::$multi_module){
             //多应用
             if($uri_array[0]){
-                self::$module_name = $uri_array[0];
+                self::$module_name = $uri_array[0];//模块名称
             }
             if(isset($uri_array[1])){
-                self::$controller_name = $uri_array[1];
+                self::$controller_name = $uri_array[1];//控制器名称
             }
             if(isset($uri_array[2])){
-                self::$action_name = $uri_array[2];
+                self::$action_name = $uri_array[2];//方法名称
             }
-            //参数
+            //参数部分
             if(count($uri_array)>3){
                 for ($i=3;$i<=count($uri_array);){
                     if(isset($uri_array[$i])){
@@ -107,15 +107,16 @@ class Route
             }
         }else{
             //单应用
-            self::$module_name = '';
+            self::$module_name = '';//模块名称
 
             if($uri_array[0]){
-                self::$controller_name = $uri_array[0];
+                self::$controller_name = $uri_array[0];//控制器名称
             }
             if(isset($uri_array[1])){
-                self::$action_name = $uri_array[1];
+                self::$action_name = $uri_array[1];//方法名称
             }
-            //参数
+
+            //参数部分
             if(count($uri_array)>2){
                 for ($i=2;$i<=count($uri_array);){
                     if(isset($uri_array[$i])){

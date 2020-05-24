@@ -7,11 +7,11 @@ class Request
      */
     protected static $instance;
 
-    protected $module_name;
+    public $module_name;
 
-    protected $controller_name;
+    public $controller_name;
 
-    protected $action_name;
+    public $action_name;
 
     /**
      * @var array 当前调度信息
@@ -42,6 +42,8 @@ class Request
      */
     protected $input;
 
+    public $request_url;
+
     /**
      * 构造函数
      * Request constructor.
@@ -49,6 +51,7 @@ class Request
      */
     protected function __construct($options = [])
     {
+        $this->request_url  = $_SERVER['REQUEST_URI'];
         foreach ($options as $name => $item) {
             if (property_exists($this, $name)) {
                 $this->$name = $item;
@@ -133,4 +136,76 @@ class Request
             halt('控制器方法：【' . $action_name . '】不存在');
         }
     }
+
+    /**
+     * 获取控制器
+     * @return mixed
+     */
+    public function getControllerName()
+    {
+        return $this->controller_name;
+    }
+
+    /**
+     * 获取模块
+     * @return mixed
+     */
+    public function getModuleName()
+    {
+        return $this->module_name;
+    }
+
+    /**
+     * 获取方法明
+     * @return mixed
+     */
+    public function getActionName()
+    {
+        return $this->action_name;
+    }
+
+    /**
+     * 获取请求参数 $_REQUEST
+     * @param string $name 参数键
+     * @param string $default 不存在默认值
+     * @return array|mixed|string 返回
+     */
+    function param($name='',$default=''){
+        if($name){
+            return isset($_REQUEST[$name])?$_REQUEST[$name]:$default;
+        }else{
+            unset($_REQUEST[$this->request_url]);//卸载地址栏后面得url
+            return $_REQUEST;
+        }
+    }
+
+    /**
+     * 获取请求参数 $_GET
+     * @param string $name 参数键
+     * @param string $default 不存在默认值
+     * @return array|mixed|string 返回
+     */
+    function get($name='',$default=''){
+        if($name){
+            return isset($_GET[$name])?$_GET[$name]:$default;
+        }else{
+            unset($_GET[$this->request_url]);//卸载地址栏后面得url
+            return $_GET;
+        }
+    }
+
+    /**
+     * 获取请求参数 $_POST
+     * @param string $name 参数键
+     * @param string $default 不存在默认值
+     * @return array|mixed|string 返回
+     */
+    function post($name='',$default=''){
+        if($name){
+            return isset($_POST[$name])?$_POST[$name]:$default;
+        }else{
+            return $_POST;
+        }
+    }
+
 }
