@@ -24,10 +24,65 @@ class Config
             return self::$config[$range];
         }else{
             $config = require_once(WYCTO_PATH . 'config.php');
+
+            $app_file = ROOT_PATH . 'config'  . DS . 'app.php';
+            if(file_exists($app_file)){
+                $app_config = require_once($app_file);
+                if(count($app_config)){
+                    $config = array_merge($config, ['app'=>$app_config]);
+                }
+            }
+
+            $database_file = ROOT_PATH . 'config'  . DS . 'database.php';
+            if(file_exists($database_file)){
+                $database_config = require_once($database_file);
+                if(count($database_config)){
+                    $config = array_merge($config, ['database'=>$database_config]);
+                }
+            }
+
+            $log_file = ROOT_PATH . 'config'  . DS . 'log.php';
+            if(file_exists($log_file)){
+                $log_config = require_once($log_file);
+                if(count($log_config)){
+                    $config = array_merge($config, ['log'=>$log_config]);
+                }
+            }
+
+            $cache_file = ROOT_PATH . 'config'  . DS . 'cache.php';
+            if(file_exists($log_file)){
+                $cache_config = require_once($cache_file);
+                if(count($cache_config)){
+                    $config = array_merge($config, ['cache'=>$cache_config]);
+                }
+            }
+
+            $session_file = ROOT_PATH . 'config'  . DS . 'session.php';
+            if(file_exists($session_file)){
+                $session_config = require_once($session_file);
+                if(count($session_config)){
+                    $config = array_merge($config, ['session'=>$session_config]);
+                }
+            }
+
+            $cookie_file = ROOT_PATH . 'config'  . DS . 'cookie.php';
+            if(file_exists($cookie_file)){
+                $cookie_config = require_once($cookie_file);
+                if(count($cookie_config)){
+                    $config = array_merge($config, ['cookie'=>$cookie_config]);
+                }
+            }
+
             return self::$config[$range] = $config;
         }
     }
 
+    /**
+     * 获取配置
+     * @param null $name
+     * @param string $range
+     * @return mixed|null
+     */
     public static function get($name = null, $range = ''){
         $range = $range ?: self::$range;
 

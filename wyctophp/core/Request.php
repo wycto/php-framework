@@ -113,7 +113,7 @@ class Request
         $controller_classname = $this->controller_name . $this->config['app']['controller_suffix'];
         if($this->config['app']['multi_module']){
             if(!is_dir(ROOT_PATH . 'app' . DS . $this->module_name)){
-                halt('模块：【' . $this->module_name . '】不存在');
+                dump('模块：【' . $this->module_name . '】不存在');
             }
             $controller_classname = DS . 'app' . DS . $this->module_name . DS . 'controller' . DS . ucfirst($controller_classname);
         }else{
@@ -122,18 +122,23 @@ class Request
 
         $controller_classname = str_replace('/','\\',$controller_classname);
 
-        $controller = new $controller_classname();
+        if(class_exists($controller_classname)){
+            $controller = new $controller_classname();
 
-        if($this->config['app']['use_action_prefix']){
-            $action_name = 'action' . ucfirst($this->action_name);
-        }else{
-            $action_name = $this->action_name . $this->config['app']['action_suffix'];
-        }
+            if($this->config['app']['use_action_prefix']){
+                $action_name = 'action' . ucfirst($this->action_name);
+            }else{
+                $action_name = $this->action_name . $this->config['app']['action_suffix'];
+            }
 
-        if(method_exists($controller,$action_name)){
-            return $controller->$action_name();
+            if(method_exists($controller,$action_name)){
+                return $controller->$action_name();
+            }else{
+                dump('控制器方法：【' . $this->action_name . '】不存在');
+            }
+
         }else{
-            halt('控制器方法：【' . $action_name . '】不存在');
+            dump("控制器：【" . $this->controller_name . "】不存在");
         }
     }
 

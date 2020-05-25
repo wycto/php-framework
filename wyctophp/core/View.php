@@ -3,31 +3,73 @@ namespace wycto;
 
 class View
 {
-    public static function run($template=''){
-        if($template){
-            include_once $template;
-        }else{
-            $request = Request::instance();
-            $file = APP_PATH;
-            if($request->module_name){
-                $file .= $request->module_name . DS;
-            }
-            $file .= 'view' . DS . $request->controller_name . DS . $request->action_name . '.html';
-            include_once $file;
+    // 视图实例
+    protected static $instance;
+
+    // 模板变量
+    protected $data = [];
+
+    /**
+     * 初始化视图
+     * @access public
+     * @param array $engine  模板引擎参数
+     * @param array $replace  字符串替换参数
+     * @return object
+     */
+    public static function instance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
         }
+        return self::$instance;
     }
 
-    public static function load($file=''){
-        if($file){
-            include_once $file;
-        }else{
+    /**
+     * 模板变量赋值
+     * @access public
+     * @param mixed $name  变量名
+     * @param mixed $value 变量值
+     * @return $this
+     */
+    public function assign($name, $value = '')
+    {
+        if (is_array($name)) {
+            $this->data = array_merge($this->data, $name);
+        } else {
+            $this->data[$name] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * 渲染模板输出
+     * @param string $template
+     */
+    public function display($template = '')
+    {
+        return $this->fetch($template = '');
+    }
+
+    /**
+     * 使用指定模板
+     * @param string $template
+     */
+    public function fetch($template = '')
+    {
+        if(!$template){
             $request = Request::instance();
-            $file = APP_PATH;
+            $template = APP_PATH;
             if($request->module_name){
-                $file .= $request->module_name . DS;
+                $template .= $request->module_name . DS;
             }
-            $file .= 'view' . DS . $request->controller_name . DS . $request->action_name . '.html';
-            include_once $file;
+            $template .= 'view' . DS . $request->controller_name . DS . $request->action_name . '.php';
+        }
+
+        if(file_exists($template)){
+            extract($this->data);
+            include_once $template;
+        }else{
+            dump('模板文件' . $template . '不存在');
         }
     }
 }

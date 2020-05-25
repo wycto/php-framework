@@ -10,8 +10,6 @@ class IndexController
 {
     function indexAction(){
         $re = Request::instance();
-        dump($re->get());
-
-        return "this IndexController indexAction";
+        view();
     }
 }

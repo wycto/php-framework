@@ -3,7 +3,7 @@
 return [
     'app' => [
         // 应用调试模式
-        'debug' => false,
+        'debug' => true,
         // 是否多应用
         'multi_module'       => true,
         // 默认时区
