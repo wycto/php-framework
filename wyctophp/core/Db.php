@@ -18,4 +18,8 @@ class Db
      */
     function __destruct()
     {}
+
+    function getConnect(){
+
+    }
 }

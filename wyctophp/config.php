@@ -24,7 +24,7 @@ return [
         'use_action_prefix'      => false,
         // 操作方法后缀
         'action_suffix'          => 'Action',
-        //过滤器
+        //过滤器,填写过滤函数名称，多个用英文逗号分隔
         'default_filter' => ''
     ],
     'log'                    => [

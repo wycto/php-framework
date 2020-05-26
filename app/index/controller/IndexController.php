@@ -4,12 +4,13 @@
 namespace app\index\controller;
 
 
-use wycto\Request;
+use wycto\Controller;
 
-class IndexController
+class IndexController extends Controller
 {
     function indexAction(){
-        $re = Request::instance();
+        $re = $this->request->param();
+        dump($_SERVER);
         view();
     }
 }

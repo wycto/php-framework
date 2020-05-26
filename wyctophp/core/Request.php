@@ -213,4 +213,28 @@ class Request
         }
     }
 
+    /**
+     * 是否POST请求
+     * @return bool
+     */
+    function isPost(){
+        return isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD'])=='POST';
+    }
+
+    /**
+     * 是否GET请求
+     * @return bool
+     */
+    function isGet(){
+        return isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD'])=='GET';
+    }
+
+    /**
+     * 是否AJAX请求
+     * @return bool
+     */
+    function isAjax(){
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH'])=='XMLHTTPREQUEST';
+    }
+
 }

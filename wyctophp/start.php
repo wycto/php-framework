@@ -21,8 +21,8 @@ require_once 'helper.php';
 // 注册自动加载
 \wycto\Loader::register();
 
-//加载配置
+//配置注册
 \wycto\Config::register();
 
-//注册错误和异常
+//错误和异常注册
 \wycto\Error::register();
