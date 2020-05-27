@@ -19,7 +19,11 @@ class Db
     function __destruct()
     {}
 
-    public static function getConnect(){
+    /**
+     * 连接数据库
+     * @return \PDO|null
+     */
+    public static function connect(){
         if(self::$connect===null){
             $dbms='mysql';     //数据库类型
             $host='127.0.0.1'; //数据库主机名
@@ -29,7 +33,9 @@ class Db
             $dsn="$dbms:host=$host;dbname=$dbName";
 
             try {
-                $dbh = new \PDO($dsn, $user, $pass); //初始化一个PDO对象
+                $dbh = new \PDO($dsn, $user, $pass,array(
+                    \PDO::ATTR_PERSISTENT => true
+                )); //初始化一个PDO对象,持久连接
                 self::$connect = $dbh;
             } catch (\PDOException $e) {
                 halt("Error!: " . $e->getMessage() . "<br/>");
@@ -37,5 +43,12 @@ class Db
         }
 
         return self::$connect;
+    }
+
+    /**
+     * 关闭连接
+     */
+    function disconnect(){
+        self::$connect = null;
     }
 }

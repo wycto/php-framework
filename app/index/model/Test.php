@@ -13,7 +13,7 @@ class Test
     }
 
     public static function select(){
-        $con = Db::getConnect();
+        $con = Db::connect();
         $re = $con->prepare('select * from prisoner limit 30');
         $re->execute();
         $re->setFetchMode(\PDO::FETCH_ASSOC);
