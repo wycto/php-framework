@@ -1,6 +1,8 @@
 <html>
-<head></head>
+<head>
+    <title>WYCTOPHP</title>
+</head>
 <body>
-<h1>这里是模板</h1>
+<h3>首页</h3>
 </body>
 </html>
