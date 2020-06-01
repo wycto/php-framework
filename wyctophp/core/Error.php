@@ -16,11 +16,7 @@ class Error
     public static function register()
     {
         $config_app = Config::get('app');
-        if($config_app['debug']){
-            error_reporting(E_ALL);
-        }else{
-            error_reporting(0);
-        }
+        error_reporting($config_app['error_reporting']);
 
         /*set_error_handler([__CLASS__, 'appError']);
         set_exception_handler([__CLASS__, 'appException']);

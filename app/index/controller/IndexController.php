@@ -22,10 +22,10 @@ class IndexController extends Controller
 //        $re->setFetchMode(\PDO::FETCH_ASSOC);
 //        $all = $re->fetchAll();
 //        $all = $this->array_to_object($all);
-        $rows = Db::table('prison')->select();
+        $rows = Db::table('user')->select();
         dump($rows);
         View::instance()->assign('all',$rows);
-        view();
+        //view();
 
     }
 

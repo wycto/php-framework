@@ -17,7 +17,11 @@ class Db
      */
     function __construct($table_name='')
     {
-        $this->table_name = $table_name;
+        if($table_name){
+            $database = Config::get('database');
+            $table_name = $database['prefix'] . $table_name;
+            $this->table_name = $table_name;
+        }
     }
 
     /**
@@ -29,27 +33,29 @@ class Db
      * 连接数据库
      * @return \PDO|null
      */
-    public static function connect(){
-        if(self::$connect===null){
+    public static function connect($databaseName=null){
+        if($databaseName!=null||self::$connect===null){
             $database = Config::get('database');
             $dbms = $database['type'];     //数据库类型
             $host = $database['hostname']; //数据库主机名
-            $dbname = $database['database'];    //使用的数据库
+            $dbname = $databaseName?$databaseName:$database['database'];    //使用的数据库
             $username = $database['username'];      //数据库连接用户名
             $password = $database['password'];//对应的密码
             $persistent = $database['persistent'];//持久化
 
             $dsn="$dbms:host=$host;dbname=$dbname";
-
+            $charset = $database['charset'];
             try {
-                if($persistent){
-                    $dbh = new \PDO($dsn, $username, $password,array(
+                if($persistent&&$databaseName===null){
+                    $pdo = new \PDO($dsn, $username, $password,array(
                         \PDO::ATTR_PERSISTENT => true
                     )); //初始化一个PDO对象,持久连接
                 }else{
-                    $dbh = new \PDO($dsn, $username, $password); //初始化一个PDO对象
+                    $pdo = new \PDO($dsn, $username, $password); //初始化一个PDO对象
                 }
-                self::$connect = $dbh;
+                $pdo->setAttribute(\PDO::ATTR_ERRMODE,\PDO::ERRMODE_EXCEPTION);
+                $pdo->exec('SET NAMES ' . $charset);
+                self::$connect = $pdo;
             } catch (\PDOException $e) {
                 halt("Error!: " . $e->getMessage() . "<br/>");
             }
@@ -78,7 +84,16 @@ class Db
      */
     public function select(){
 
-        return self::$connect->query('SELECT * from `' . $this->table_name . '` limit 30')->fetchAll(\PDO::FETCH_ASSOC);
+        $PDOStatement = self::$connect->query('SELECT * FROM `' . $this->table_name . '` limit 30');
+        return $PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * 获取数据库的版本号
+     * @return mixed
+     */
+    public static function getVersion(){
+        return self::$connect->getAttribute(\PDO::ATTR_SERVER_VERSION);
     }
 
 }
