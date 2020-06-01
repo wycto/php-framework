@@ -7,27 +7,26 @@ namespace app\index\controller;
 use app\index\model\Test;
 use wycto\Controller;
 use wycto\Db;
+use wycto\View;
 
 class IndexController extends Controller
 {
 
     function indexAction(){
-//        $con = Db::getConnect();
-//        $re = $con->prepare('select * from prisoner limit 30');
-//        /*dump($re->execute());
-//        dump($re->setFetchMode(\PDO::FETCH_ASSOC));*/
+
+        $con = Db::connect();
+        //$re = $con->prepare('select * from prisoner limit 30');
+        /*dump($re->execute());
+        dump($re->setFetchMode(\PDO::FETCH_ASSOC));*/
 //        $re->execute();
 //        $re->setFetchMode(\PDO::FETCH_ASSOC);
 //        $all = $re->fetchAll();
 //        $all = $this->array_to_object($all);
-//        foreach ($all as $item) {
-//            dump($item);
-//        }
-        $rows = Test::select();
-        foreach ($rows as $row) {
-            dump($row->PrisonName);
-        }
+        $rows = Db::table('prison')->select();
+        dump($rows);
+        View::instance()->assign('all',$rows);
         view();
+
     }
 
     function array_to_object($arr) {
