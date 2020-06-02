@@ -14,7 +14,7 @@ class IndexController extends Controller
 
     function indexAction(){
 
-        $con = Db::connect();
+        //$con = Db::connect();
         //$re = $con->prepare('select * from prisoner limit 30');
         /*dump($re->execute());
         dump($re->setFetchMode(\PDO::FETCH_ASSOC));*/
@@ -22,10 +22,10 @@ class IndexController extends Controller
 //        $re->setFetchMode(\PDO::FETCH_ASSOC);
 //        $all = $re->fetchAll();
 //        $all = $this->array_to_object($all);
-        $rows = Db::table('user')->select();
+        /*$rows = Db::table('user')->select();
         dump($rows);
-        View::instance()->assign('all',$rows);
-        //view();
+        View::instance()->assign('all',$rows);*/
+        view();
 
     }
 
