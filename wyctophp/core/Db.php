@@ -71,6 +71,16 @@ class Db
         self::$connect = null;
     }
 
+    /**
+     * query 查询
+     * @return mixed
+     */
+    public function query(){
+
+        $PDOStatement = self::$connect->query('SELECT * FROM `' . $this->table_name . '` limit 30');
+        return $PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public static function table($name){
         if(self::$instance===null){
             self::$instance = new self($name);
