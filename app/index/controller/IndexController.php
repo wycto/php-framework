@@ -15,7 +15,8 @@ class IndexController extends Controller
     function indexAction(){
 
         $db = Db::connect();
-        $res = Db::table('weiyi')->getOne();
+        $res = $db->execute('INSERT INTO weiyi VALUES(0,"weiyi","1","1")');
+        $res = Db::table('weiyi')->order('id desc')->getOne();
         dump($res);
     }
 }

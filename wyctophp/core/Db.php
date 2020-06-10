@@ -10,6 +10,12 @@ class Db
 {
     protected $table_name;
 
+    protected $where;
+
+    protected $order;
+
+    protected $sql;
+
     protected static $connect = null;
 
     protected static $instance = null;
@@ -71,7 +77,7 @@ class Db
      */
     public static function table($table_name){
         if(self::$instance===null){
-            //self::connect();
+            self::$instance = new self();
         }
         self::$instance->table_name = $table_name;
         return self::$instance;
@@ -100,17 +106,102 @@ class Db
      * @return mixed
      */
     function getOne(){
-        $PDOStatement = self::$connect->query('SELECT * FROM ' . $this->table_name);
+        $this->sql = 'SELECT * FROM ' . $this->table_name;
+        if($this->where){
+            $this->sql .=  ' where ' . $this->where;
+        }
+
+        if($this->order){
+            $this->sql .=  ' ORDER BY ' . $this->order;
+        }
+        $PDOStatement = self::$connect->prepare($this->sql);
+        $PDOStatement->execute();
         return $PDOStatement->fetch(\PDO::FETCH_ASSOC);
     }
+
     /**
      * 查询结果集
      * @return mixed
      */
     public function getAll(){
 
-        $PDOStatement = self::$connect->query('SELECT * FROM `' . $this->table_name);
+        $this->sql = 'SELECT * FROM ' . $this->table_name;
+        if($this->where){
+            $this->sql .=  ' where ' . $this->where;
+        }
+
+        if($this->order){
+            $this->sql .=  ' ORDER BY ' . $this->order;
+        }
+
+        $PDOStatement = self::$connect->prepare($this->sql);
+        $PDOStatement->execute();
         return $PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * delete 删除数据
+     * @return false|int
+     */
+    public function delete(){
+        $this->sql = 'DELETE FROM ' . $this->table_name;
+        $PDOStatement = self::$connect->prepare($this->sql);
+        return $PDOStatement->execute();;
+    }
+
+    /**
+     * 查询条件
+     * @param $where
+     * @return $this
+     */
+    public function where($where=null){
+        if($where){
+            $where_str = '';
+            if(is_array($where)){
+                $i = 0;
+                foreach ($where as $key=>$val){
+                    if($i){
+                        $where_str .= " AND " . $key . '=' . $val;
+                    }else{
+                        $where_str .= '' . $key . '=' . $val;
+                    }
+                    $i++;
+                }
+            }else{
+                $where_str = $where;
+            }
+
+            if($this->where){
+                $this->where = " AND " . $where_str;
+            }else{
+                $this->where = $where_str;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * 排序
+     * @param $order
+     * @return $this
+     */
+    function order($order){
+        $order_str = '';
+        if(is_array($order)){
+            $i = 0;
+            foreach ($order as $key=>$val){
+                if($i){
+                    $order_str .= ',' . $key . ' ' . $val;
+                }else{
+                    $order_str .= '' . $key . ' ' . $val;
+                }
+                $i++;
+            }
+        }else{
+            $order_str = $order;
+        }
+        $this->order = $order_str;
+        return $this;
     }
 
     /**
