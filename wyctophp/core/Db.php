@@ -106,7 +106,7 @@ class Db
      * @return mixed
      */
     function getOne(){
-        $this->sql = 'SELECT * FROM ' . $this->table_name;
+        $this->sql = 'SELECT * FROM `' . $this->table_name . '`';
         if($this->where){
             $this->sql .=  ' where ' . $this->where;
         }
@@ -125,7 +125,7 @@ class Db
      */
     public function getAll(){
 
-        $this->sql = 'SELECT * FROM ' . $this->table_name;
+        $this->sql = 'SELECT * FROM `' . $this->table_name . '`';
         if($this->where){
             $this->sql .=  ' where ' . $this->where;
         }
@@ -144,7 +144,7 @@ class Db
      * @return false|int
      */
     public function delete(){
-        $this->sql = 'DELETE FROM ' . $this->table_name;
+        $this->sql = 'DELETE FROM `' . $this->table_name . '`';
         $PDOStatement = self::$connect->prepare($this->sql);
         return $PDOStatement->execute();;
     }
@@ -161,9 +161,9 @@ class Db
                 $i = 0;
                 foreach ($where as $key=>$val){
                     if($i){
-                        $where_str .= " AND " . $key . '=' . $val;
+                        $where_str .= " AND `" . $key . '`=' . $val;
                     }else{
-                        $where_str .= '' . $key . '=' . $val;
+                        $where_str .= '`' . $key . '`=' . $val;
                     }
                     $i++;
                 }
@@ -191,9 +191,9 @@ class Db
             $i = 0;
             foreach ($order as $key=>$val){
                 if($i){
-                    $order_str .= ',' . $key . ' ' . $val;
+                    $order_str .= ',`' . $key . '` ' . $val;
                 }else{
-                    $order_str .= '' . $key . ' ' . $val;
+                    $order_str .= '`' . $key . '` ' . $val;
                 }
                 $i++;
             }
