@@ -96,7 +96,7 @@ return [
         // 数据库连接端口
         'hostport'        => '',
         // 数据库编码默认采用utf8
-        'charset'         => 'utf8',
+        'charset'         => 'utf8mb4',
         // 数据库表前缀
         'prefix'          => '',
         //是否持久链接

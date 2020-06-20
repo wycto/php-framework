@@ -72,7 +72,7 @@ class Db
 
     /**
      * 定义操作表
-     * @param $table_name 表名称，去掉前缀
+     * @param $table_name 表名称
      * @return 返回当前对象实例 Db
      */
     public static function table($table_name){
@@ -114,6 +114,7 @@ class Db
         if($this->order){
             $this->sql .=  ' ORDER BY ' . $this->order;
         }
+
         $PDOStatement = self::$connect->prepare($this->sql);
         $PDOStatement->execute();
         return $PDOStatement->fetch(\PDO::FETCH_ASSOC);
@@ -185,22 +186,24 @@ class Db
      * @param $order
      * @return $this
      */
-    function order($order){
-        $order_str = '';
-        if(is_array($order)){
-            $i = 0;
-            foreach ($order as $key=>$val){
-                if($i){
-                    $order_str .= ',`' . $key . '` ' . $val;
-                }else{
-                    $order_str .= '`' . $key . '` ' . $val;
+    function order($order=null){
+        if($order!==null){
+            $order_str = '';
+            if(is_array($order)){
+                $i = 0;
+                foreach ($order as $key=>$val){
+                    if($i){
+                        $order_str .= ',`' . $key . '` ' . $val;
+                    }else{
+                        $order_str .= '`' . $key . '` ' . $val;
+                    }
+                    $i++;
                 }
-                $i++;
+            }else{
+                $order_str = $order;
             }
-        }else{
-            $order_str = $order;
+            $this->order = $order_str;
         }
-        $this->order = $order_str;
         return $this;
     }
 

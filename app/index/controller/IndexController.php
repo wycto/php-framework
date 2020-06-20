@@ -3,11 +3,8 @@ declare(strict_types=1);
 
 namespace app\index\controller;
 
-
-use app\index\model\Test;
+use app\index\model\User;
 use wycto\Controller;
-use wycto\Db;
-use wycto\View;
 
 class IndexController extends Controller
 {
@@ -18,9 +15,9 @@ class IndexController extends Controller
         $res = $db->execute('INSERT INTO weiyi VALUES(0,"weiyi","1","1")');
         $res = Db::table('weiyi')->order('id desc')->getAll();
         dump($res);*/
-        $data = Test::find()->getOne();
+        $data = User::find()->where(array('uid'=>3))->getOne();
         dump($data);
-        dump($data['name']);
-        dump($data->name);
+        dump($data['nickname']);
+        dump($data->nickname);
     }
 }

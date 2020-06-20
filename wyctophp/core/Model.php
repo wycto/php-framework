@@ -7,12 +7,17 @@ class Model implements ArrayAccess
 
     protected $data = [];
 
-    protected $db;
+    protected $table;
+
+    protected $return_array = false;
+
+    private $condition;
 
     public function __construct() {
         $table = get_class($this);
         $table = substr($table,strripos($table,'\\')+1);
-        $this->db = Db::table($table);
+        $prefix = Config::get('database.prefix');
+        $this->table = $prefix . strtolower($table);
     }
 
     public static function find(){
@@ -22,8 +27,27 @@ class Model implements ArrayAccess
         return self::$instance;
     }
 
+    function where($where){
+        $this->condition = $where;
+        return $this;
+    }
+
     function getOne(){
-        $this->data = array('name'=>'wyctophp','summary'=>'good php framework');
+        $row = Db::table($this->table)->where($this->condition)->order()->getOne();
+        $this->data = $row;
+        if($this->return_array){
+            return $this->data;
+        }else{
+            return $this;
+        }
+    }
+
+    function toArray(){
+        return $this->data;
+    }
+
+    function asArray(){
+        $this->return_array = true;
         return $this;
     }
 
