@@ -11,7 +11,7 @@
  * 9.加载控制器
  * 10.返回结果
  * */
-require_once __DIR__ . '/../wyctophp/start.php';
+require_once __DIR__ . '/../frame/start.php';
 
 //启用框架
 \wycto\App::run();

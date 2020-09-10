@@ -113,7 +113,7 @@ class Request
         $controller_classname = $this->controller_name . $this->config['app']['controller_suffix'];
         if($this->config['app']['multi_module']){
             if(!is_dir(ROOT_PATH . 'app' . DS . $this->module_name)){
-                dump('模块：【' . $this->module_name . '】不存在');
+                Debug::dump('模块：【' . $this->module_name . '】不存在');
             }
             $controller_classname = DS . 'app' . DS . $this->module_name . DS . 'controller' . DS . ucfirst($controller_classname);
         }else{
@@ -134,11 +134,11 @@ class Request
             if(method_exists($controller,$action_name)){
                 return $controller->$action_name();
             }else{
-                dump('控制器方法：【' . $this->action_name . '】不存在');
+                Debug::dump('控制器方法：【' . $this->action_name . '】不存在');
             }
 
         }else{
-            dump("控制器：【" . $this->controller_name . "】不存在");
+            Debug::dump("控制器：【" . $this->controller_name . "】不存在");
         }
     }
 

@@ -30,9 +30,9 @@ class Error
             //$ErrorText = json_encode($Error);
             $config_app = Config::get('app');
             if($config_app['debug']){
-                dump($Error);
+                Debug::dump($Error);
             }else{
-                dump($Error);
+                Debug::dump($Error);
             }
         }
     }

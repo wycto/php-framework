@@ -61,7 +61,7 @@ class Loader
                 self::$class_map[$class] = $file;
                 include $file;
             }else{
-                dump('类' . $class_name . " 文件不存在" . $file);
+                Debug::dump('类' . $class_name . " 文件不存在" . $file);
             }
         }
     }

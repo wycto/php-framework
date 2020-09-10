@@ -73,12 +73,33 @@ class Db
     /**
      * 定义操作表
      * @param $table_name 表名称
+     * @param $prefix 前缀，是否加表前缀，true是，默认否
      * @return 返回当前对象实例 Db
      */
-    public static function table($table_name){
+    public static function table($table_name,$prefix=false){
         if(self::$instance===null){
             self::$instance = new self();
         }
+
+        if($prefix){
+            $table_name = Config::get('database.prefix').$table_name;
+        }
+        self::$instance->table_name = $table_name;
+        return self::$instance;
+    }
+
+    /**
+     * 定义操作表，带配置里面的前缀
+     * @param $table_name 表名称
+     * @return 返回当前对象实例 Db
+     */
+    public static function name($table_name){
+        if(self::$instance===null){
+            self::$instance = new self();
+        }
+
+        $table_name = Config::get('database.prefix').$table_name;
+
         self::$instance->table_name = $table_name;
         return self::$instance;
     }

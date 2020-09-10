@@ -69,7 +69,7 @@ class View
             extract($this->data);
             include_once $template;
         }else{
-            dump('模板文件' . $template . '不存在');
+            Debug::dump('模板文件' . $template . '不存在');
         }
     }
 }

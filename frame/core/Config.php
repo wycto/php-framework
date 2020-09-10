@@ -29,7 +29,8 @@ class Config
             if(file_exists($app_file)){
                 $app_config = require_once($app_file);
                 if(count($app_config)){
-                    $config = array_merge($config, ['app'=>$app_config]);
+                    $app = array_merge($config['app'],$app_config);
+                    $config = array_merge($config, ['app'=>$app]);
                 }
             }
 
@@ -37,7 +38,8 @@ class Config
             if(file_exists($database_file)){
                 $database_config = require_once($database_file);
                 if(count($database_config)){
-                    $config = array_merge($config, ['database'=>$database_config]);
+                    $database = array_merge($config['database'],$database_config);
+                    $config = array_merge($config, ['database'=>$database]);
                 }
             }
 
@@ -45,7 +47,8 @@ class Config
             if(file_exists($log_file)){
                 $log_config = require_once($log_file);
                 if(count($log_config)){
-                    $config = array_merge($config, ['log'=>$log_config]);
+                    $log = array_merge($config['log'],$log_config);
+                    $config = array_merge($config, ['log'=>$log]);
                 }
             }
 
@@ -53,7 +56,8 @@ class Config
             if(file_exists($log_file)){
                 $cache_config = require_once($cache_file);
                 if(count($cache_config)){
-                    $config = array_merge($config, ['cache'=>$cache_config]);
+                    $cache = array_merge($config['cache'],$cache_config);
+                    $config = array_merge($config, ['cache'=>$cache]);
                 }
             }
 
@@ -61,7 +65,8 @@ class Config
             if(file_exists($session_file)){
                 $session_config = require_once($session_file);
                 if(count($session_config)){
-                    $config = array_merge($config, ['session'=>$session_config]);
+                    $session = array_merge($config['session'],$session_config);
+                    $config = array_merge($config, ['session'=>$session]);
                 }
             }
 
@@ -69,7 +74,8 @@ class Config
             if(file_exists($cookie_file)){
                 $cookie_config = require_once($cookie_file);
                 if(count($cookie_config)){
-                    $config = array_merge($config, ['cookie'=>$cookie_config]);
+                    $cookie = array_merge($config['cookie'],$cookie_config);
+                    $config = array_merge($config, ['cookie'=>$cookie]);
                 }
             }
 

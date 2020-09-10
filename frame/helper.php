@@ -5,4 +5,3 @@ if (!function_exists('view')) {
         return \wycto\View::instance()->display($template='');
     }
 }
-?>
