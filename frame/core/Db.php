@@ -4,7 +4,7 @@ namespace wycto;
 /**
  *
  * @author WeiYi
- *        
+ *
  */
 class Db
 {
@@ -106,6 +106,7 @@ class Db
 
     /**
      * query 查询
+     * @param $sql SQL语句
      * @return mixed
      */
     function query($sql){
@@ -189,14 +190,16 @@ class Db
                     }
                     $i++;
                 }
-            }else{
+            }elseif(is_string($where)){
                 $where_str = $where;
             }
 
-            if($this->where){
-                $this->where = " AND " . $where_str;
-            }else{
-                $this->where = $where_str;
+            if($where_str){
+                if($this->where){
+                    $this->where = " AND " . $where_str;
+                }else{
+                    $this->where = $where_str;
+                }
             }
         }
         return $this;
@@ -208,7 +211,7 @@ class Db
      * @return $this
      */
     function order($order=null){
-        if($order!==null){
+        if(!empty($order)){
             $order_str = '';
             if(is_array($order)){
                 $i = 0;
@@ -220,14 +223,49 @@ class Db
                     }
                     $i++;
                 }
-            }else{
+            }elseif(is_string($order)){
                 $order_str = $order;
             }
-            $this->order = $order_str;
+
+            if($order_str){
+                $this->order = $order_str;
+            }
         }
         return $this;
     }
 
+    /**
+     * 获取表结构信息
+     * @param null $key 指定返回信息，Field、Type、Comment...
+     * @param bool $field_index 返回字段索引
+     * @return array 返回数组
+     */
+    function getFieldsInfo($key=null,$field_index=false){
+        $returnArr = [];
+
+        $PDOStatement = self::$connect->prepare('SHOW FULL FIELDS FROM '.$this->table_name);
+        $PDOStatement->execute();
+        $fieldsInfoArr = $PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
+
+        if($field_index||$key){
+            foreach ($fieldsInfoArr as $fieldsInfo){
+                $valArr = $fieldsInfo[$key];
+                if(empty($key)){
+                    $valArr = $fieldsInfo;
+                }
+
+                if($field_index){
+                    $returnArr[$fieldsInfo['Field']] = $valArr;
+                }else{
+                    $returnArr[] = $valArr;
+                }
+            }
+        }else{
+            $returnArr = $fieldsInfoArr;
+        }
+
+        return $returnArr;
+    }
     /**
      * 获取数据库的版本号
      * @return mixed
