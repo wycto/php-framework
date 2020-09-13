@@ -5,19 +5,16 @@ namespace app\index\controller;
 
 use app\index\model\User;
 use wycto\Controller;
+use wycto\Db;
 
 class IndexController extends Controller
 {
 
     function indexAction(){
+        return view();
+    }
 
-        /*$db = Db::connect();
-        $res = $db->execute('INSERT INTO weiyi VALUES(0,"weiyi","1","1")');
-        $res = Db::table('weiyi')->order('id desc')->getAll();
-        dump($res);*/
-        $data = User::find()->where(array('uid'=>3))->getOne();
-        dump($data);
-        dump($data['nickname']);
-        dump($data->nickname);
+    function testAction(){
+        dump('this is test');
     }
 }

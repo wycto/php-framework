@@ -1,4 +1,5 @@
 <?php
+namespace wycto;
 /*
  * 1.定义常量
  * 2.引入函数库
@@ -11,7 +12,8 @@
  * 9.加载控制器
  * 10.返回结果
  * */
-require_once __DIR__ . '/../frame/start.php';
+require __DIR__ . '/../vendor/autoload.php';
+//require_once __DIR__ . '/../frame/start.php';
 
 //启用框架
 \wycto\App::run();

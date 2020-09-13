@@ -1,5 +1,5 @@
 <?php
-define('WYCTO_VERSION', '0.0.1');
+define('VERSION', '0.0.1');
 define('EXT', '.php');
 define('DS', DIRECTORY_SEPARATOR);
 define('WYCTO_PATH', __DIR__ . DS);

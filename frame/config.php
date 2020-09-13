@@ -29,6 +29,29 @@ return [
         //过滤器,填写过滤函数名称，多个用英文逗号分隔
         'default_filter' => ''
     ],
+    //数据库设置
+    'database'               => [
+        // 数据库类型
+        'type'            => 'mysql',
+        // 数据库连接DSN配置
+        'dsn'             => '',
+        // 服务器地址
+        'hostname'        => '127.0.0.1',
+        // 数据库名
+        'database'        => 'prison',
+        // 数据库用户名
+        'username'        => 'root',
+        // 数据库密码
+        'password'        => '123qwe',
+        // 数据库连接端口
+        'hostport'        => '',
+        // 数据库编码默认采用utf8
+        'charset'         => 'utf8mb4',
+        // 数据库表前缀
+        'prefix'          => '',
+        //是否持久链接
+        'persistent' => true
+    ],
     'log'                    => [
         // 日志记录方式
         'type'  => 'File',
@@ -78,28 +101,5 @@ return [
         'httponly'  => '',
         // 是否使用 setcookie
         'setcookie' => true,
-    ],
-    //数据库设置
-    'database'               => [
-        // 数据库类型
-        'type'            => 'mysql',
-        // 数据库连接DSN配置
-        'dsn'             => '',
-        // 服务器地址
-        'hostname'        => '127.0.0.1',
-        // 数据库名
-        'database'        => 'prison',
-        // 数据库用户名
-        'username'        => 'root',
-        // 数据库密码
-        'password'        => '123qwe',
-        // 数据库连接端口
-        'hostport'        => '',
-        // 数据库编码默认采用utf8
-        'charset'         => 'utf8mb4',
-        // 数据库表前缀
-        'prefix'          => '',
-        //是否持久链接
-        'persistent' => true
     ]
 ];

@@ -1,0 +1,32 @@
+{
+    "name": "wycto/phpframe",
+    "description": "一个轻量级的MVC框架、个人学习PHP框架、PHP框架、wycto框架",
+    "type": "project",
+    "keywords": [
+        "framework",
+        "wycto",
+        "frame"
+    ],
+    "homepage": "http://www.wycto.cn/",
+    "require-dev": {
+        "php": ">=7.1.0"
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "wycto",
+            "email": "294287600@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "app",
+            "wycto\\": "frame/core"
+        },
+        "psr-0": {
+            "": "extend/"
+        },
+        "files":["frame/start.php"]
+    }
+}
