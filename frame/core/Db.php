@@ -21,7 +21,7 @@ class Db
     protected static $instance = null;
     /**
      */
-    function __construct()
+    private function __construct()
     {
         if(self::$connect===null){
             $database = Config::get('database');
@@ -51,6 +51,8 @@ class Db
             }
         }
     }
+
+    private function __clone(){}
 
     /**
      * 连接数据库
@@ -232,6 +234,38 @@ class Db
             }
         }
         return $this;
+    }
+
+    /**
+     * 新增数据
+     * @param $dataArr 新增数据数组
+     * @return false|int 返回受影响的行数
+     */
+    function insert($dataArr){
+        $fieldStr = '';
+        $valuesStr = '';
+        $sql = '';
+        $result = 0;
+
+        foreach ($dataArr as $key=>$val){
+            if($fieldStr){
+                $fieldStr .= ',`'.$key.'`';
+                $valuesStr .= ',"'.$val.'"';
+            }else{
+                $fieldStr .= '`'.$key.'`';
+                $valuesStr .= '"'.$val.'"';
+            }
+        }
+
+        if($fieldStr&&$valuesStr){
+            $sql = 'INSERT INTO '.$this->table_name.' ('.$fieldStr.') VALUES ('.$valuesStr.')';
+        }
+
+        if($sql){
+             $result = $this->execute($sql);
+        }
+
+        return $result;
     }
 
     /**
