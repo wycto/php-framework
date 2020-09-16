@@ -133,6 +133,7 @@ class Db
         $this->sql = 'SELECT * FROM `' . $this->table_name . '`';
         if($this->where){
             $this->sql .=  ' where ' . $this->where;
+            $this->where = null;
         }
 
         if($this->order){
@@ -165,16 +166,6 @@ class Db
     }
 
     /**
-     * delete 删除数据
-     * @return false|int
-     */
-    public function delete(){
-        $this->sql = 'DELETE FROM `' . $this->table_name . '`';
-        $PDOStatement = self::$connect->prepare($this->sql);
-        return $PDOStatement->execute();;
-    }
-
-    /**
      * 查询条件
      * @param $where
      * @return $this
@@ -183,14 +174,12 @@ class Db
         if($where){
             $where_str = '';
             if(is_array($where)){
-                $i = 0;
                 foreach ($where as $key=>$val){
-                    if($i){
-                        $where_str .= " AND `" . $key . '`=' . $val;
+                    if($where_str){
+                        $where_str .= ' AND `' . $key . '`="' . $val . '"';
                     }else{
-                        $where_str .= '`' . $key . '`=' . $val;
+                        $where_str .= '`' . $key . '`="' . $val.'"';
                     }
-                    $i++;
                 }
             }elseif(is_string($where)){
                 $where_str = $where;
@@ -198,7 +187,7 @@ class Db
 
             if($where_str){
                 if($this->where){
-                    $this->where = " AND " . $where_str;
+                    $this->where .= " AND " . $where_str;
                 }else{
                     $this->where = $where_str;
                 }
@@ -262,10 +251,83 @@ class Db
         }
 
         if($sql){
-             $result = $this->execute($sql);
+            $PDOStatement = self::$connect->prepare($sql);
+            $result = $PDOStatement->execute();
         }
 
         return $result;
+    }
+
+    /**
+     * 更新数据
+     * @param $dataArr 更新的数据
+     * @param $where 更新条件
+     * @return false|int 返回更新的记录数
+     */
+    function update($dataArr,$where){
+        $setStr = '';
+        $whereStr = '';
+        $sql = '';
+        $result = 0;
+
+        foreach ($dataArr as $key=>$val){
+            if($setStr){
+                $setStr .= ',`'.$key.'`="'.$val.'"';
+            }else{
+                $setStr .= '`'.$key.'`="'.$val.'"';
+            }
+        }
+
+        foreach ($where as $key=>$val){
+            if($whereStr){
+                $whereStr .= ' AND `'.$key.'`="'.$val.'"';
+            }else{
+                $whereStr .= '`'.$key.'`="'.$val.'"';
+            }
+        }
+
+        if($setStr){
+            $sql = 'UPDATE '.$this->table_name.' SET '.$setStr;
+        }
+
+        if($sql&&$whereStr){
+            $sql .= ' WHERE '.$whereStr;
+        }
+
+        if($sql){
+            $PDOStatement = self::$connect->prepare($sql);
+            $result = $PDOStatement->execute();
+        }
+
+        return $result;
+    }
+
+    /**
+     * delete 删除数据
+     * @return false|int
+     */
+    public function delete($where,$all=false){
+        $whereStr = '';
+        foreach ($where as $key=>$val){
+            if($whereStr){
+                $whereStr .= ' AND `'.$key.'`="'.$val.'"';
+            }else{
+                $whereStr .= '`'.$key.'`="'.$val.'"';
+            }
+        }
+
+        if(empty($whereStr)&&!$all){
+            return 0;
+        }
+
+        $this->sql = 'DELETE FROM `' . $this->table_name . '`';
+
+        if($whereStr){
+            $this->sql .= ' WHERE '.$whereStr;
+        }
+
+        $PDOStatement = self::$connect->prepare($this->sql);
+        return $PDOStatement->execute();
     }
 
     /**
