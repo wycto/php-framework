@@ -47,7 +47,7 @@ class Db
                 $pdo->exec('SET NAMES ' . $charset);
                 self::$connect = $pdo;
             } catch (\PDOException $e) {
-                halt("Error!: " . $e->getMessage() . "<br/>");
+                Debug::halt("Error!: " . $e->getMessage() . "<br/>");
             }
         }
     }
@@ -133,7 +133,6 @@ class Db
         $this->sql = 'SELECT * FROM `' . $this->table_name . '`';
         if($this->where){
             $this->sql .=  ' where ' . $this->where;
-            $this->where = null;
         }
 
         if($this->order){
@@ -175,11 +174,9 @@ class Db
             $where_str = '';
             if(is_array($where)){
                 foreach ($where as $key=>$val){
-                    if($where_str){
-                        $where_str .= ' AND `' . $key . '`="' . $val . '"';
-                    }else{
-                        $where_str .= '`' . $key . '`="' . $val.'"';
-                    }
+                    $val = is_string($val)&&!is_numeric($key)?'"'.$val.'"':$val;
+                    $str = is_integer($key)?$val:'`'.$key.'`='.$val;
+                    $where_str .= $where_str?" AND ".$str:$str;
                 }
             }elseif(is_string($where)){
                 $where_str = $where;
