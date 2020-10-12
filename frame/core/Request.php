@@ -110,6 +110,7 @@ class Request
      * @return mixed
      */
     function execute(){
+        $app_config = $this->config['app'];
         $controller_classname = $this->controller_name . $this->config['app']['controller_suffix'];
         if($this->config['app']['multi_module']){
             if(!is_dir(ROOT_PATH . 'app' . DS . $this->module_name)){
@@ -117,7 +118,7 @@ class Request
             }
             $controller_classname = DS . 'app' . DS . $this->module_name . DS . 'controller' . DS . ucfirst($controller_classname);
         }else{
-            $controller_classname = DS . 'app' . DS . 'controller' . DS . ucfirst($controller_classname);
+            $controller_classname = DS . 'app' . DS . $app_config['default_module'].DS.'controller' . DS . ucfirst($controller_classname);
         }
 
         $controller_classname = str_replace('/','\\',$controller_classname);
@@ -143,21 +144,21 @@ class Request
     }
 
     /**
-     * 获取控制器
-     * @return mixed
-     */
-    public function getControllerName()
-    {
-        return $this->controller_name;
-    }
-
-    /**
      * 获取模块
      * @return mixed
      */
     public function getModuleName()
     {
         return $this->module_name;
+    }
+
+    /**
+     * 获取控制器
+     * @return mixed
+     */
+    public function getControllerName()
+    {
+        return $this->controller_name;
     }
 
     /**

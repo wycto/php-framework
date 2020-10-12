@@ -107,7 +107,7 @@ class Route
             }
         }else{
             //单应用
-            self::$module_name = '';//模块名称
+            //self::$module_name = '';//模块名称
 
             if($uri_array[0]){
                 self::$controller_name = $uri_array[0];//控制器名称
