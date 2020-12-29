@@ -17,24 +17,24 @@ class Route
     function __construct()
     {
         $app_config = Config::get('app');
-        $this->module_name = $app_config['default_module'];
-        $this->controller_name = $app_config['default_controller'];
-        $this->action_name = $app_config['default_action'];
-        $this->multi_module = $app_config['multi_module'];
-        $this->app_config = $app_config;
+        self::$action_name = $app_config['default_module'];
+        self::$controller_name = $app_config['default_controller'];
+        self::$action_name = $app_config['default_action'];
+        self::$multi_module = $app_config['multi_module'];
+        self::$app_config = $app_config;
 
         $uri = $_SERVER['REQUEST_URI'];
         $uri_array = explode('/',trim($uri,'/'));
-        if($this->multi_module){
+        if(self::$multi_module){
             //多应用
             if($uri_array[0]){
-                $this->module_name = $uri_array[0];
+                self::$module_name = $uri_array[0];
             }
             if(isset($uri_array[1])){
-                $this->controller_name = $uri_array[1];
+                self::$controller_name = $uri_array[1];
             }
             if(isset($uri_array[2])){
-                $this->action_name = $uri_array[2];
+                self::$action_name = $uri_array[2];
             }
             //参数
             if(count($uri_array)>3){
@@ -48,13 +48,13 @@ class Route
             }
         }else{
             //单应用
-            $this->module_name = '';
+            self::$module_name = '';
 
             if($uri_array[0]){
-                $this->controller_name = $uri_array[0];
+                self::$controller_name = $uri_array[0];
             }
             if(isset($uri_array[1])){
-                $this->action_name = $uri_array[1];
+                self::$action_name = $uri_array[1];
             }
             //参数
             if(count($uri_array)>2){
@@ -68,9 +68,9 @@ class Route
             }
         }
 
-        $this->mca['module_name'] = $this->module_name;
-        $this->mca['controller_name'] = $this->controller_name;
-        $this->mca['action_name'] = $this->action_name;
+        self::$mca['module_name'] = self::$module_name;
+        self::$mca['controller_name'] = self::$controller_name;
+        self::$mca['action_name'] = $this->action_name;
     }
 
     public static function  parse($request, $config){
