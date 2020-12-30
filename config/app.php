@@ -5,7 +5,7 @@ return [
     //error_reporting错误级别
     'error_reporting' => 0,
     // 是否多应用
-    'multi_module'       => false,
+    'multi_module'       => true,
     // 默认时区
     'default_timezone'       => 'PRC',
     // 控制器类后缀
