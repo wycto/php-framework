@@ -11,10 +11,7 @@ class View
 
     /**
      * 初始化视图
-     * @access public
-     * @param array $engine  模板引擎参数
-     * @param array $replace  字符串替换参数
-     * @return object
+     * @return View
      */
     public static function instance()
     {
