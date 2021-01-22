@@ -96,7 +96,7 @@ return [
 ```
 
 ### 数据库配置 database.php
-
+```php
     <?php
     return [
         // 数据库类型
@@ -121,5 +121,6 @@ return [
         'persistent' => true
     ];
 
+```
 
 #待续......
