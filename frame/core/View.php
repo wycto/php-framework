@@ -51,7 +51,7 @@ class View
      * 使用指定模板
      * @param string $template
      */
-    public function fetch($template = '')
+    private function fetch($template = '')
     {
         if(!$template){
             $request = Request::instance();
