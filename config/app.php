@@ -1,7 +1,7 @@
 <?php
 return [
     // 应用调试模式
-    'debug' => true,
+    'debug' => false,
     //error_reporting错误级别
     'error_reporting' => 0,
     // 是否多应用

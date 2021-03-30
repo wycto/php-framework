@@ -141,6 +141,7 @@ class Db
 
         $PDOStatement = self::$connect->prepare($this->sql);
         $PDOStatement->execute();
+        $this->where = "";
         return $PDOStatement->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -365,5 +366,9 @@ class Db
      */
     public function getVersion(){
         return self::$connect->getAttribute(\PDO::ATTR_SERVER_VERSION);
+    }
+
+    public function getLastSql(){
+        return $this->sql;
     }
 }

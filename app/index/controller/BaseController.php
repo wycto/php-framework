@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-namespace wycto;
+namespace app\index\controller;
 
 /**
  * 控制器基础类

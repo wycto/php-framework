@@ -6,6 +6,7 @@ namespace app\index\controller;
 
 use app\index\model\Test;
 use wycto\Db;
+use wycto\Log;
 use wycto\Request;
 
 class TestController
@@ -23,15 +24,13 @@ class TestController
     }
 
     function indexAction(){
-        //header("Content-Type: text/html; charset=utf-8");
-        dump(ROOT_PATH);
-        $re = exec("D:\ProgramData\Anaconda3\python ".ROOT_PATH."/python/index.py E:\wwwroot\python3\pythontest\\excel\普联科技离职工资8月.xlsx ".urlencode("E:\wwwroot\python3\pythontest\\excel\哦豁.xls"),$output,$return_var);
-        dump($output);
-        dump(json_decode($output[0],true));
-        //dump($re);
-//        foreach ( as $out){
-//            dump($out);
-//        }
+        $re = Db::table("account")->where(['code'=>"10003"])->getOne();
+
+            if(empty($re)){
+                dump("空");
+            }else{
+                dump($re);
+            }
     }
 
     function  runAction(){

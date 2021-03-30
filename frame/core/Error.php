@@ -31,8 +31,9 @@ class Error
             $config_app = Config::get('app');
             if($config_app['debug']){
                 Debug::dump($Error);
+                Log::addErrorLog($Error);
             }else{
-                Debug::dump($Error);
+                Log::addErrorLog($Error);
             }
         }
     }
